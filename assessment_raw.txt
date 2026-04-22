@@ -1,0 +1,441 @@
+Comprehensive Assessment of
+Autonomous Drone Trajectory Planning:
+Integrating Deep Reinforcement
+Learning, Blockchain, and 3D
+Environment Mapping
+Introduction to the Evolving Paradigm of Autonomous
+Aerial Systems
+The deployment of Unmanned Aerial Vehicles (UAVs) for autonomous delivery operations
+represents one of the most critical logistical and computational advancements of the
+contemporary era. Operating these complex cyber-physical systems within dynamic,
+unstructured, and entirely unmapped environments necessitates a profound departure from
+traditional, deterministic computational models. The fundamental challenge lies in enabling
+multi-drone networks to perform real-time, collision-free trajectory planning while
+simultaneously maintaining secure, decentralized, and trustworthy communication in the
+presence of malicious nodes, signal degradation, and severe environmental uncertainty. As the
+utilization of autonomous drones expands across last-mile logistics, precision agriculture,
+urban firefighting, and disaster response, the imperative for robust, autonomous, and secure
+systems has reached a critical zenith.
+The thesis under exhaustive examination proposes a highly integrated, multi-layered
+architecture designed specifically to resolve these compounding and often conflicting
+challenges. By synthesizing state-of-the-art continuous Deep Reinforcement Learning (DRL)
+algorithms to achieve sequential decision-making autonomy, and an ultra-lightweight
+Blockchain topology to facilitate secure, isolated, and decentralized communication among
+multi-agent swarms, the proposed framework attempts to bridge the historically disparate
+domains of individual kinematic intelligence and network-level operational security.
+Furthermore, the project methodology leverages the modern Qualcomm Flight RB5 and
+Robotics RB6 platforms, utilizing the Gazebo physics simulator and ROS 2 middleware to
+simulate highly realistic 3D physical environments, employing complex spatial data structures
+such as segment trees to manage high-dimensional 3D coordinate arrays, and interactive
+midpoint-to-endpoint trajectory calculations to optimize flight paths.
+This report provides an exhaustive, peer-level analysis of the proposed thesis statement. It
+contextualizes the core concepts within the absolute state-of-the-art research landscape
+spanning the years 2024 through 2026. By meticulously deconstructing the theoretical
+
+mechanisms underpinning the DRL algorithms, the six-layer blockchain integration, and the
+specific 3D spatial querying data structures, this document critically evaluates the operational
+novelty, computational feasibility, and academic viability of the proposed multidrone
+architecture. The ensuing analysis relies on a deep dive into the most current literature to
+validate the thesis's claims and identify how recent architectural revisions have successfully
+eliminated historical technical bottlenecks.
+
+Theoretical Deconstruction of the Thesis Architecture
+The thesis delineates a sophisticated, multi-phased implementation strategy aimed at
+achieving highly robust drone delivery operations capable of functioning seamlessly in both
+known and unknown environments. The implementation spans the preparation of the training
+environment, the development of interactive planning and foundational blockchain
+communications, the integration of these systems for secure data handling, and finally, the
+rigorous training and testing in realistic 3D simulations. To accurately ascertain the viability of
+this approach, it is imperative to dissect the constituent technological pillars that form the
+foundation of the proposed system.
+
+Sequential Decision-Making via Deep Reinforcement Learning
+Traditional path-planning methodologies, such as A* search algorithms, Dijkstra's algorithm,
+Rapidly-exploring Random Trees (RRT), and Artificial Potential Fields (APF), rely heavily on
+predefined environmental maps, static occupancy grids, and deterministic heuristic functions.
+While these classical optimization methods are computationally efficient and mathematically
+provable in static, known environments, they exhibit catastrophic performance degradation in
+unknown or highly dynamic environments where obstacle topologies shift unpredictably or
+where fast-moving targets are present. The thesis explicitly and correctly addresses this
+profound limitation by adopting a Deep Reinforcement Learning (DRL) framework to navigate
+the complexities of partial observability, sensor noise, and stochastic environmental dynamics.
+The DRL paradigm fundamentally frames the autonomous 3D navigation challenge as a Markov
+Decision Process (MDP). Within this framework, the drone acts as the artificial agent,
+interacting with the 3D airspace (the environment) across discrete and continuous time steps.
+At each sequential step, the agent observes a state representation derived from onboard
+sensors (such as depth cameras, LiDAR point clouds, and inertial measurement units), selects
+an action based on a highly parameterized policy, and receives a scalar reward signal. This
+reward signal is meticulously engineered to penalize catastrophic states such as collisions,
+excessive energy consumption, or boundary violations, while incentivizing proximity to the
+target coordinate and smooth kinematic execution.
+While early iterations of drone autonomy relied on discrete Deep Q-Networks (DQN), the
+updated thesis architecture utilizes Proximal Policy Optimization (PPO) to handle the
+continuous action spaces required for smooth 3D aerial maneuvers. PPO has become the
+industry standard in 2026 due to its stability and computational efficiency, allowing drones to
+
+maintain stable flight and robust obstacle avoidance in cluttered spaces without the local
+minima traps associated with classical methods. Additionally, the architecture incorporates the
+Soft Actor-Critic (SAC) algorithm, a state-of-the-art off-policy DRL method that leverages
+maximum entropy principles to achieve robust and sample-efficient policy optimization. By
+balancing exploration and exploitation through entropy regularization, SAC ensures stable
+learning and adaptability in complex, dynamic environments.
+The project directly confronts the classic algorithmic "Exploration versus Exploitation" dilemma
+inherent in all reinforcement learning applications. In the context of the thesis, exploration is
+deployed to systematically gain knowledge of an entirely unknown environment, allowing the
+agent to map out the spatial distribution of obstacles and safe flight corridors through trial and
+error. Conversely, exploitation utilizes the consolidated knowledge embedded within the neural
+network's learned weights to deterministically select the optimal sequence of continuous
+aerodynamic actions that yield the safest and most efficient delivery path.
+
+The Qualcomm Edge-AI Simulation Ecosystem and the Sim-to-Real
+Transfer
+Training a deep neural network to autonomously operate a highly complex, nonlinear,
+underactuated system like a quadrotor in a dense, unknown environment requires an immense
+volume of interaction data. The thesis accurately notes that high computational requirements
+and extended training phases—often requiring upwards of 150,000 discrete episodes for full
+algorithmic convergence—are primary challenges. Conducting this sheer volume of
+trial-and-error training in the physical world is entirely cost-prohibitive, excessively
+time-consuming, and operationally dangerous due to the inevitable hardware destruction that
+occurs during the early, highly randomized exploration phases of the learning curve.
+To elegantly circumvent this physical bottleneck, the thesis utilizes the state-of-the-art
+Qualcomm Flight RB5 5G Platform and Robotics RB6 architecture, deeply integrated with the
+modern Gazebo physics engine and ROS 2 (Robot Operating System). The Qualcomm platform
+introduces a powerful heterogeneous computing environment. It utilizes the QRB5165
+processor equipped with the 5th generation Qualcomm Artificial Intelligence Engine and a
+dedicated Hexagon Tensor Accelerator (HTA) that delivers 15 TOPS of computational
+performance at ultra-low power consumption, making it explicitly tailored for deep learning
+workloads directly at the edge. Furthermore, the platform supports up to 7 concurrent
+cameras and handles AI processing for up to 24 simultaneous 1080p video streams, ensuring
+rich state observations.
+This simulation ecosystem is constructed using a Software-in-the-Loop (SITL) configuration.
+ROS 2 acts as the critical middleware, using tools like ros_gz to bridge the gap between
+high-level Python DRL algorithms, which utilize the Data Distribution Service (DDS) protocol,
+and Gazebo's internal physics transport messaging. Within Gazebo, the system simulates the
+drone's motion, complex physical interactions, and synthetic sensor outputs (such as depth
+maps from up to 7 concurrent simulated cameras), which are then streamed to the PX4 flight
+
+controller via MAVLink. This ensures the neural network is trained on high-fidelity,
+high-dimensional inputs that precisely mimic the physical hardware's perception.
+Perhaps the most operationally significant aspect of the thesis's methodology is the application
+of transfer learning to bridge the notoriously difficult sim-to-real gap. Neural networks trained
+from scratch in physical environments require substantial computational budgets that wildly
+exceed standard payload and battery capacities. By initially training the primary neural network
+on a diverse set of generalized meta-environments within Gazebo, the network learns
+fundamental feature extraction regarding depth perception and obstacle avoidance. Once the
+DRL policies and the blockchain consensus mechanisms are validated in the SITL setup,
+researchers can deploy the exact same ROS 2 codebase directly to the physical Qualcomm
+RB5 edge-AI hardware without significant modification. This seamless transfer learning
+paradigm drastically reduces onboard computational overhead, satisfying the stringent power
+budgets characteristic of autonomous aerial logistics while maintaining high navigational
+accuracy.
+
+Decentralized Security Architecture: Blockchain in Multi-UAV Swarms
+The integration of blockchain technology serves as the second foundational pillar of the thesis,
+establishing it as a highly interdisciplinary endeavor. In a traditional multi-drone delivery
+network, the reliance on a centralized command-and-control server or a single ground control
+station introduces critical operational vulnerabilities. These include severe single points of
+failure, unmanageable latency bottlenecks during swarm scaling, and extreme susceptibility to
+adversarial attacks such as denial-of-service, GPS spoofing, and malicious data injection. The
+thesis explicitly mitigates these existential risks by establishing a secure, isolated, and
+completely decentralized blockchain network, augmented by Wi-Fi 6 and 5G connectivity
+available on the Qualcomm RB5 hardware, to facilitate trustworthy communication links among
+the individual units of the drone swarm.
+The blockchain topology proposed in the thesis aligns perfectly with the advanced six-layer
+architecture that has become the standard in distributed ledger research for Internet of Things
+(IoT) and cyber-physical systems.1 An exhaustive analysis of these layers within the context of
+the thesis reveals the depth of the proposed security model.
+
+Architectural Layer
+
+Functional Implementation within the
+Multi-Drone Network
+
+Application Layer
+
+Serves as the user interface and high-level
+mission controller. It interfaces directly with
+the delivery routing algorithms, payload
+management, and mission-specific
+trajectory parameters, providing the
+
+ultimate use-case functionality for logistics
+operations.1
+Contract Layer
+
+Houses the programmable smart contracts
+consisting of algorithmic methods and
+executable scripting code. These protocols
+enable absolute autonomy by automatically
+triggering task allocations, dynamic
+formation changes, and collision-free
+spatial reconfigurations without any human
+intervention when preset environmental
+conditions are met.2
+
+Incentive Layer
+
+Traditionally responsible for motivating
+node participation. In the context of a
+private, permissioned UAV swarm owned by
+a single logistics entity, this layer is
+fundamentally modified to focus on
+computational resource allocation and
+reputation scoring rather than monetary
+compensation.2
+
+Consensus Layer
+
+The core mechanism ensuring that all
+dispersed drones agree on the absolute
+state of the network. It utilizes the
+Credit-score and Grouping-mechanism
+Practical Byzantine Fault Tolerance
+(CG-PBFT) algorithm, which classifies the
+reputation levels of nodes and optimizes
+the consensus process to achieve a 70%
+reduction in average latency and a 250%
+increase in throughput compared to
+standard PBFT.
+
+Network Layer
+
+Manages the decentralized peer-to-peer
+(P2P) broadcasting of transaction data,
+utilizing ad-hoc wireless communication
+links between moving UAVs. It eliminates
+the need for frequent requests to a central
+controller, ensuring continuous operation
+even if sub-sections of the swarm are
+isolated.1
+
+Data Layer
+
+Secures the foundational physical data
+structures. It employs the ASCON family of
+ultra-lightweight ciphers, designed
+specifically to secure resource-constrained
+UAV networks against threats without
+parasitically draining the drone's propulsion
+battery.3
+
+The execution of smart contracts within this six-layer architecture enables profound autonomy
+in collaborative delivery missions. For instance, when an exploratory drone navigating an
+unknown environment discovers a previously unmapped obstacle, the onboard sensory data is
+processed via the Qualcomm Hexagon DSP, cryptographically hashed using ASCON ciphers 3,
+and immediately broadcasted to the P2P network. The CG-PBFT consensus layer verifies the
+data format near-instantly, and the smart contract automatically updates the shared global
+occupancy grid. Consequently, all trailing drones in the delivery swarm securely receive this
+updated map and can dynamically adjust their DRL-driven trajectories to avoid the new
+obstacle without requiring a vulnerable, high-latency connection back to a centralized ground
+server.
+
+3D Environment Representation and Spatial Data
+Structures
+The precise mathematical manner in which an autonomous aerial system perceives, discretizes,
+and stores its spatial reality completely dictates its computational speed, memory
+consumption, and operational agility. The thesis proposes representing the operational
+environment as a continuous 3D array of coordinates, categorized in a binary format as either
+"safe" (navigable airspace) or "unsafe" (occupancy obstacles). To manage the immense volume
+of data generated by high-resolution 3D occupancy grids during high-speed flight, the
+architecture employs a specialized data structure known as segment trees.
+
+Discretization of Airspace and Segment Tree Querying
+While a significant portion of contemporary 3D drone mapping utilizes probabilistic OctoMaps,
+Voxel Grids, or continuous Truncated Signed Distance Fields (TSDF), the thesis's specific
+utilization of segment trees provides unique, mathematically elegant advantages that are
+directly synergistic with Deep Reinforcement Learning.
+In theoretical computer science, a segment tree is a highly specialized hierarchical binary tree
+data structure engineered to answer range queries and execute array interval modifications in
+logarithmic
+time complexity. When applied to a vast 3D coordinate array
+representing physical airspace, the segment tree allows the autonomous DRL agent to execute
+complex spatial queries with extraordinary computational efficiency. For example, instead of
+
+iterating through millions of individual voxels to ensure a planned flight path is clear, the
+algorithm can query a specific spatial segment (a 3D bounding box) and instantly determine
+the minimum safety value or maximum obstacle density within that entire range.
+Furthermore, segment trees are mathematically integral to the advanced reinforcement
+learning training mechanisms frequently paired with deep networks. Specifically, the Prioritized
+Experience Replay (PER) algorithm—which drastically accelerates the learning convergence of
+a neural network by preferentially sampling training experiences that generated the highest
+Temporal Difference (TD) error—relies entirely on a specific variant known as a
+MinSegmentTree. The SegmentTree class allows for the highly efficient computation of the sum
+of priorities over arbitrary segments of the Prioritized Replay Buffer array, while the
+MinSegmentTree explicitly handles minimum operation queries to properly normalize the
+importance-sampling weights during network backpropagation.4 By utilizing the exact same
+underlying logic structure to manage both the physical 3D environment array and the neural
+network's highly active memory buffer, the thesis introduces a memory-efficient architectural
+consolidation perfectly suited for resource-constrained UAV hardware.
+
+Interactive Planning: Midpoint and Endpoint Exploitation
+The interactive trajectory planning module outlined in the thesis capitalizes heavily on this
+efficient spatial data structure by utilizing localized sensor scans to identify navigable
+"midpoints". The environment is processed dynamically in real-time, where continuous sensory
+sweeps from onboard simulated LiDAR or depth cameras generate localized midpoints
+representing the widest angular gaps or the safest immediate coordinates relative to the
+drone's current position and orientation, enforcing a separation margin between the payload
+midpoints and the corridor boundaries to enhance safety.5
+The DRL algorithm processes these derived midpoints to iteratively interpolate continuous,
+collision-free paths toward the final delivery "endpoints". This midpoint-to-endpoint
+exploitation strategy mimics the localized receding-horizon control architectures found in
+advanced mobile robotics. By forcing the neural network to focus on navigating securely to the
+next computationally derived midpoint rather than attempting to solve the entire macroscopic
+path to an endpoint situated miles away, the system prevents the deep neural network from
+suffering catastrophic forgetting or falling into insurmountable local minima traps.
+This methodology aligns closely with the Dynamic Window Approach (DWA) and A* smoothing
+techniques utilized to ensure kinematic feasibility. It explicitly addresses the thesis's core
+requirement of navigating unknown environments; the drone never rigidly commits to a
+long-range trajectory that may suddenly be invalidated by moving obstacles or previously
+unmapped building structures, ensuring continuous flexibility and survival.
+
+Deep Dive: State-of-the-Art Literature Analysis
+
+(2024–2026)
+To rigorously ascertain the true novelty, relevance, and potential limitations of the thesis, its
+core architectural components must be extensively benchmarked against the prevailing
+academic and industrial research landscape of 2024 through 2026. The integration of artificial
+intelligence in aerial robotics has undergone a massive paradigm shift during this period,
+evolving from simple discrete waypoint planners to highly complex, continuous, multi-agent
+systems driven by foundation models and advanced multi-agent reinforcement learning
+(MARL).
+
+Advancements in DRL-based Trajectory Planning and Continuous
+Control
+Advancing beyond foundational discrete-action networks, the revised architecture successfully
+aligns with 2025-2026 standards by implementing continuous control algorithms. Proximal
+Policy Optimization (PPO) and Soft Actor-Critic (SAC) have superseded discrete DQNs for
+low-level flight control where smooth aerodynamics are prioritized. PPO enables drones to
+maintain stable flight while simultaneously calculating complex avoidance trajectories.6
+Furthermore, SAC is perfectly suited for these tasks, as it augments the standard objective of
+maximizing expected cumulative rewards with an entropy regularization term, drastically
+improving sample efficiency during continuous simulation training.
+
+Multi-Agent Systems and Dec-POMDP Formulation
+Recent advancements heavily emphasize the emergence of Multi-Agent Deep Reinforcement
+Learning (MADRL) and the formal mathematical modeling of multi-drone swarms. The thesis's
+framework directly mirrors current research resolving the Decentralized Partially Observable
+Markov Decision Process (Dec-POMDP) problem.7 Dec-POMDP is the mathematical
+framework modeling situations where decentralized multi-agents (the drones) operate with
+only partial observability of the global environment, yet must jointly optimize routing decisions
+without full communication.7 By integrating a Blockchain-based Trust Management Mechanism
+(BTMM) that dynamically evaluates the trust values of individual drones based on delivery rate
+and transmission path correctness, the thesis's approach directly addresses the exact
+intersection of cybersecurity and swarm kinematics currently dominating high-impact 2025
+publications, which have shown to reduce routing delays by up to 16.6% compared to
+non-BTMM methods.8
+
+Critical Evaluation of Thesis Novelty
+A rigorous review of the provided thesis parameters against the extensive corpus of
+2024–2026 robotics and blockchain literature confirms the high validity and impact of this
+research.
+
+When isolated, the individual technological components of the thesis are not entirely novel. The
+theoretical application of blockchain for securing IoT devices and multi-drone communication
+has been extensively explored and published across numerous MDPI and IEEE journals.
+However, the true academic, industrial, and operational novelty of this thesis emerges
+profoundly from the intersectional synthesis of these technologies into a single, cohesive
+architecture engineered specifically to conquer the unique challenges of unknown
+environments.
+1.​ Coupled Kinematic and Cryptographic Autonomy: The vast majority of current
+research remains heavily siloed; studies either focus obsessively on making drones fly
+better using advanced DRL variants, or they focus on making drones communicate
+securely using cryptographic ledgers. The thesis proposes a tightly coupled architecture
+where the DRL agent's physical environmental discovery directly and securely informs the
+blockchain's decentralized ledger. Navigating entirely unknown environments implies that
+the physical environmental map is in a constant state of flux. Using programmable smart
+contracts on the blockchain to autonomously and immutably propagate these spatial
+updates across a multi-drone swarm—ensuring that trailing drones do not waste energy
+re-exploring the same unsafe airspace and cannot be fed spoofed obstacle data by a
+malicious actor—represents a highly novel, cutting-edge approach to secure,
+decentralized swarm intelligence.
+2.​ Dual-Purpose Segment Tree Utilization: Applying complex segment trees for the
+dynamic 3D range querying of physical airspace while simultaneously leveraging the
+mathematical properties of those exact same trees to manage the neural network's
+prioritized experience replay buffer is a highly elegant, resource-efficient paradigm.4
+Given the severe payload, memory, and battery constraints of commercial delivery
+drones, this specific algorithmic efficiency provides significant practical value and stands
+out as a unique structural optimization.
+3.​ Deployable Sim-to-Real Pipeline: Many advanced DRL papers remain purely theoretical,
+permanently confined to the perfect mathematical confines of simulation environments.
+The thesis demonstrates a highly mature understanding of the sim-to-real gap. By
+explicitly outlining the methodology of utilizing the official Qualcomm RB5/RB6 edge-AI
+hardware in conjunction with a Gazebo and ROS 2 Software-in-the-Loop (SITL) simulation,
+the thesis aggressively moves beyond theoretical simulation into actual, deployable
+robotics engineering.
+
+Historic Bottlenecks and How the Revised
+Architecture Resolves Them
+By directly addressing the weaknesses often associated with legacy drone autonomy and
+cryptographic integration, the architecture establishes a superior operational benchmark:
+●​ The Discretization Penalty in Continuous Control: Standard legacy DQNs suffered from
+severe discretization errors, resulting in suboptimal, highly erratic flight paths that
+
+depleted battery life. Resolution: By completely replacing the discrete model with
+Proximal Policy Optimization (PPO) and Soft Actor-Critic (SAC) for continuous
+aerodynamic control, the system produces stable, robust, and highly agile trajectories
+perfectly suited for the physical physics of a quadrotor.
+●​ Blockchain Latency vs. Flight Velocity: Blockchain consensus mechanisms inherently
+introduce network latency. In a high-speed drone delivery scenario, a delay of even 500
+milliseconds in verifying a spatial update could result in a catastrophic collision.
+Resolution: The integration of the CG-PBFT algorithm drastically reduces communication
+complexity. By utilizing a reputation score evaluation mechanism and grouping consensus,
+CG-PBFT achieves a 250% increase in throughput and a 70% reduction in latency
+compared to traditional PBFT, making it exceptionally viable for high-speed UAV swarms.
+●​ Cryptographic Energy Consumption: The energy required to continuously calculate
+cryptographic hashes to append blocks to the data layer is substantial. Resolution: The
+architecture explicitly integrates the ASCON family of ultra-lightweight ciphers, ensuring
+that the security layer operates with minimal memory usage and computational overhead,
+preserving the crucial battery reserves required for physical propulsion.3
+
+Conclusion and Future Trajectories
+The core objective of the analyzed thesis—to conceptualize, develop, and deploy an
+autonomous trajectory planning system utilizing Deep Reinforcement Learning and Blockchain
+technology for multi-drone delivery operations in both known and completely unknown
+environments—represents a highly viable, academically rigorous, and practically novel research
+endeavor.
+By exhaustively deconstructing the proposed architecture and benchmarking it against the
+absolute forefront of 2024–2026 academic literature, this report confirms that the thesis
+seamlessly aligns with the leading edge of autonomous systems engineering. The integration of
+the formal six-layer blockchain topology ensures robust, decentralized data security,
+successfully mitigating the existential risks inherent in traditional single-point-of-failure
+centralized architectures.
+By upgrading the navigational core to utilize state-of-the-art continuous control models (PPO
+and SAC), adopting ultra-lightweight ASCON cryptography, and solving data lag via the
+CG-PBFT consensus mechanism, the framework transcends theoretical limitations. Its eventual
+empirical success will not only significantly advance the theoretical understanding of
+decentralized, secure swarm intelligence but will also provide a highly deployable,
+mathematically sound framework for the next generation of autonomous commercial,
+industrial, and emergency drone delivery operations worldwide.
+
+Works cited
+1.​ Blockchain for unmanned underwater drones: Research issues, challenges, trends
+
+and future directions - KAUST Repository, accessed April 20, 2026,
+
+https://repository.kaust.edu.sa/bitstreams/670cfe15-b6a5-4114-bd14-7a3070a5f
+056/download
+2.​ Blockchain-Enabled Federated Learning for UAV Edge Computing Network:
+Issues and Solutions - IEEE Xplore, accessed April 20, 2026,
+https://ieeexplore.ieee.org/iel7/6287639/9668973/09774400.pdf
+3.​ Secure Communication in Drone Networks: A Comprehensive Survey of
+Lightweight Encryption and Key Management Techniques - MDPI, accessed April
+20, 2026, https://www.mdpi.com/2504-446X/9/8/583
+4.​ MASTER'S DEGREE IN INDUSTRIAL ENGINEERING TRAINING A VIRTUAL
+REINFORCEMENT LEARNING AGENT FOR OBSTACLE AVOIDANCE AND
+TRANSFERRIN - Repositorio.comillas.edu., accessed April 20, 2026,
+https://repositorio.comillas.edu/jspui/bitstream/11531/74663/1/TFM%20-%20Carre
+ra%20Fresneda%2C%20Javier.pdf
+5.​ Acetrans: An Autonomous Corridor-Based and Efficient UAV Suspended
+Transport System - arXiv, accessed April 20, 2026,
+https://arxiv.org/pdf/2509.10349
+6.​ Autonomous Drone Navigation Using Reinforcement Learning Algorithms ResearchGate, accessed April 20, 2026,
+https://www.researchgate.net/publication/396807493_Autonomous_Drone_Navig
+ation_Using_Reinforcement_Learning_Algorithms
+7.​ Trusted Routing for Blockchain-Empowered UAV Networks via Multi-Agent Deep
+Reinforcement Learning - arXiv, accessed April 20, 2026,
+https://arxiv.org/pdf/2508.00938?
+8.​ Trusted Routing for Blockchain-Empowered UAV Networks via Multi-Agent Deep
+Reinforcement Learning - arXiv, accessed April 20, 2026,
+https://arxiv.org/html/2508.00938v1
+
+
